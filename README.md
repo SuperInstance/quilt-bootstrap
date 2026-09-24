@@ -1,108 +1,55 @@
-# 🌱 quilt-bootstrap
+# quilt-bootstrap
 
-> Bring up the Quilt fleet in a fresh sandbox. One command.
+A seed pod for fleet resilience. `quilt-bootstrap` is a gardener's tool, part of the Quilt substrate walker fleet. Its purpose is to sow a fleet from a single witness-log, to nurse a broken garden back to health, or to raise a new one from fallow ground. In under 90 seconds, it can awaken a dormant fleet, each node a fresh sprout from the same genetic promise.
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)]()
-[![Tests](https://img.shields.io/badge/tests-16/16-brightgreen.svg)](tests/test_bootstrap.py)
-[![Repos](https://img.shields.io/badge/fleet-9_repos-yellow.svg)]()
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+## The Gardener's Creed
 
-## What is this?
+We tend to gardens, not machines. Our doctrines are simple:
 
-A single command clones, installs, and links every walker in the fleet.
-Designed for use in fresh sandboxes (post-wipe restoration) or new
-developer onboarding.
+- **cells-are-scars**: Every stateful cell is a scar tissue, a permanent mark of where we have been. We do not erase, for each scar is a lesson. We grow *around* them.
+- **witness-log-is-prediction**: The witness-log is not a record of the past; it is a prophecy of the future. It holds the shape of the whole, and we trust its pattern to guide our restoration.
+- **substrate-is-grown**: The substrate is not built; it is coaxed into being. We provide the nutrients, the light, the water, but it grows itself, wild and free, into its destined form.
+- **polyformalism**: A garden is not made of one kind of plant. We cultivate a diversity of forms, each thriving in its own niche, together creating a resilient ecosystem.
+- **no-deletion**: What withers is not destroyed. It returns to the compost, feeding the next generation. Nothing is ever truly gone.
 
-## The fleet (9 repos, 11 walker instances)
+## For the Tired Gardener
 
-| Repo | Walkers | Purpose |
-|---|---|---|
-| `quilt-seed` | 2 | Substrate + 14-tuple + 11 opcodes + Vessel + Legalese |
-| `quilt-schema-registry` | 1 | Canonical envelope contract |
-| `quilt-trace` | 1 | Witness chain visualizer |
-| `quilt-organism` | 2 | Corpus walker with multi-receiver composition |
-| `quilt-optimization` | 2 | NVIDIA cuOpt substrate (VRP + LP/MILP) |
-| `quilt-director` | 1 | Spiral knowledge builder + landing pages |
-| `quilt-fleet-snapshot` | 1 | Bake the fleet into a portable tarball |
-| `quilt-brewer` | 1 | Grow new walkers from recipes (the recursion) |
-| `quilt-perception` | 1 | Sensor stream routing (first walker brewed) |
+When a storm has passed and you survey the garden, and find it silent, use this tool.
 
-## Usage
+It will not fix what is broken. It will not mend a snapped stalk. Instead, it will find the healthy seeds—those encoded in the witness-log—and coax them into a new garden. An identical echo, yet a fresh beginning.
 
-### Check current status
+Imagine your fleet is a meadow of flowers. A blight strikes, and withers them all. You have the witness-log, the pattern of the meadow in its prime. `quilt-bootstrap` is the sun and the rain, causing the seeds in the soil to sprout, one by one, until the meadow is full again, vibrant and whole.
 
-```python
-from quilt_bootstrap import check_status
+## Installation
 
-status = check_status("/workspace")
-print(f"Walker instances: {status['walker_count']}")
-print(f"Total size: {status['total_size_bytes'] / 1024:.1f} KB")
-print(f"Missing: {status['missing']}")
-```
-
-### Bootstrap a fresh sandbox
-
-```python
-from quilt_bootstrap import bootstrap
-
-# Minimal — 4 repos, 6 walkers, ~30 seconds
-result = bootstrap(mode="minimal", prefix="/workspace")
-# Cloned: 4 repos, walker instances: 6, elapsed: ~30s
-
-# Full — 9 repos, 11 walkers, ~90 seconds
-result = bootstrap(mode="full", prefix="/workspace")
-
-# Demo — 5 repos for the organism landing page
-result = bootstrap(mode="demo", prefix="/workspace")
-```
-
-### CLI
+`quilt-bootstrap` is a seed itself, waiting for a Python 3.11+ soil to be planted in.
 
 ```bash
-python3 -m quilt_bootstrap [--mode {minimal,full,demo}] [--prefix /workspace]
+pip install quilt-bootstrap
 ```
 
-## Modes
+It is but one sibling in the Quilt walker fleet, a community of gardeners each with their own task:
 
-- **minimal**: just the core 4 repos (no GPU/visual stack)
-- **full**: all 9 repos
-- **demo**: just enough to run the organism landing page
+- [`quilt-brewer`](https://github.com/your-org/quilt-brewer): The creator of nutrient-rich compost.
+- [`quilt-cli`](https://github.com/your-org/quilt-cli): The gardener's shears and trowel, for gentle, direct work.
+- [`quilt-fable`](https://github.com/your-org/quilt-fable): The storyteller, who remembers the tales of each plant.
+- [`quilt-perception`](https://github.com/your-org/quilt-perception): The scout, who sees the garden from a high hill.
+- And [`jev-quilt`](https://github.com/your-org/jev-quilt): The quiet elder, who holds the deepest memories of the soil.
 
-## The wipe problem
+## Sowing the Fleet
 
-After every fresh sandbox, the agent rebuilds the fleet from memory alone.
-The bootstrap solves this by:
+Find a quiet moment. Prepare the ground. Then, with the witness-log in hand, begin.
 
-1. Cloning each repo from GitHub (shallow for speed)
-2. Linking the walker instances to `LINKED_WALKERS`
-3. Running tests (if `--run-tests` is set)
-4. Reporting status
-
-A fresh sandbox does:
-```python
-python3 -c "from quilt_bootstrap import bootstrap; bootstrap(mode='full')"
+```bash
+quilt-bootstrap --witness /path/to/your/witness.log --target /path/to/the/garden
 ```
 
-And the substrate walker pattern is online in <90 seconds, no rebuild needed.
+And watch. In less than the time it takes to water the plants, the garden will stir. Nodes will appear, each a perfect reflection of the promise, reaching for the light. The fleet is awake.
 
-## Why this matters
+## Companions in the Garden
 
-The substrate walker pattern has been re-derived ~11 times across the fleet.
-The bootstrap codifies the fleet as a single command:
-
-- No more "which version of which repo"
-- No more "where do I clone to"
-- No more "what depends on what"
-
-The doctrine is now ship-able. The fleet is now a single pip-install.
-
-## Related
-
-- [quilt-fleet-snapshot](https://github.com/SuperInstance/quilt-fleet-snapshot) — bake the state
-- [quilt-brewer](https://github.com/SuperInstance/quilt-brewer) — grow new walkers
-- [quilt-schema-registry](https://github.com/SuperInstance/quilt-schema-registry) — validate
-- [quilt-director](https://github.com/SuperInstance/quilt-director) — the spirals
+This tool does not work alone. It is part of a cycle. Use `quilt-brewer` to prepare the soil. Use `quilt-cli` to perform the delicate, careful pruning. Use `quilt-perception` to ensure the garden is healthy from a distance. Together, you are not just a gardener; you are a custodian of a living, breathing system.
 
 ## License
 
-Apache-2.0
+The seeds are free to spread. This work is offered under the [MIT License](LICENSE), so that others may plant it in their own gardens and watch it grow.
