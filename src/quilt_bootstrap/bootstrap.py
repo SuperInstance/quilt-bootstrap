@@ -72,15 +72,56 @@ FLEET: list[dict] = [
         "walker_count": 1,
         "deps": [],
     },
+    {
+        "name": "quilt-canon-witness",
+        "url": "https://github.com/SuperInstance/quilt-canon-witness",
+        "purpose": "Append-only cryptographic witness log (ledger substrate)",
+        "walker_count": 1,
+        "deps": [],
+    },
+    {
+        "name": "quilt-fable",
+        "url": "https://github.com/SuperInstance/quilt-fable",
+        "purpose": "Multi-voice narrative substrate walker (brewed)",
+        "walker_count": 1,
+        "deps": [],
+    },
+    {
+        "name": "quilt-orchestrator",
+        "url": "https://github.com/SuperInstance/quilt-orchestrator",
+        "purpose": "DAG-based composer substrate walker (brewed)",
+        "walker_count": 1,
+        "deps": [],
+    },
+    {
+        "name": "quilt-linker",
+        "url": "https://github.com/SuperInstance/quilt-linker",
+        "purpose": "Substrate-to-substrate graph linker (brewed)",
+        "walker_count": 1,
+        "deps": [],
+    },
 ]
 
 
 # Modes — what to install
 MODES = {
-    "minimal": ["quilt-seed", "quilt-schema-registry", "quilt-trace", "quilt-organism"],
+    "minimal": [
+        "quilt-seed",
+        "quilt-schema-registry",
+        "quilt-trace",
+        "quilt-organism",
+        "quilt-canon-witness",
+    ],
     "full": [r["name"] for r in FLEET],
-    "demo": ["quilt-seed", "quilt-schema-registry", "quilt-trace", "quilt-brewer",
-              "quilt-director"],
+    "demo": [
+        "quilt-seed",
+        "quilt-schema-registry",
+        "quilt-trace",
+        "quilt-brewer",
+        "quilt-director",
+        "quilt-perception",
+        "quilt-fable",
+    ],
 }
 
 
@@ -94,6 +135,10 @@ LINKED_WALKERS = {
     "quilt-schema-registry": ["registry"],
     "quilt-brewer": ["brewer"],
     "quilt-perception": ["sensor_stream"],
+    "quilt-canon-witness": ["ledger"],
+    "quilt-fable": ["narrative"],
+    "quilt-orchestrator": ["dag"],
+    "quilt-linker": ["graph"],
     "quilt-director": ["spirals"],
 }
 
